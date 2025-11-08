@@ -1,1 +1,9 @@
--[x] Create User Identification off of First and Last name basis
+- [] Create User Identification off of First and Last name basis
+- [] Display Three options; Store Achievement, Look at Current Achievements, Set a goal
+- [] Make DB's of Gatherings Attended and Tricks Landed
+- [] Make system take input for gathering's attended
+- [] Make system take input for tricks landed
+- [] Make system take input for Goals and save them under “Goals” category
+- [] Make system display Gatherings Attended, Tricks Landed, and Goals in organized format
+- [] Make system store all user data and achievements in a database for future sessions
+- [] Add ability to edit or delete previous entries (Gatherings, Tricks, or Goals)
