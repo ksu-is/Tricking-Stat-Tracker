@@ -1,4 +1,4 @@
-- [] Create User Identification off of First and Last name basis
+- [x] Create User Identification off of User-name and Password
 - [] Display Three options; Store Achievement, Look at Current Achievements, Set a goal
 - [] Make DB's of Gatherings Attended and Tricks Landed
 - [] Make system take input for gathering's attended
