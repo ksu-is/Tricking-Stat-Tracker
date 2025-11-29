@@ -28,7 +28,7 @@ def is_valid_username(username: str) -> bool:
 @app.route("/")
 def start():
     return redirect(url_for("login"))
-@app.route("login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     #Post method keeps password info in hidden, get would put in url
     if request.method == "POST":
