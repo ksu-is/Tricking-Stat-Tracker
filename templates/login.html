@@ -6,13 +6,13 @@
     <title>Login</title>
     <style>
         :root {
-            --bg-color: #ffffff;
+            --bg-color: #000000;
             --card-bg: rgba(10, 14, 40, 0.9);
             --accent: #4c8bf5;
             --accent-soft: rgb(154, 235, 255);
             --error: #ff4b4b;
-            --text-main: #000000;
-            --text-muted: #ff8b8b;
+            --text-main: #9cbefc;
+            --text-muted: #424242;
             --border-subtle: rgba(148, 163, 184, 0.35);
         }
         * {
@@ -39,9 +39,9 @@
             position: absolute;
             inset: -50%;
             background-image: url("{{ url_for('static', filename='images/darkaurasnake.png') }}");
-            background-size: 50%;
+            background-size: 44%;
             background-position: center;
-            opacity: 0.25;
+            opacity: 1;
             pointer-events: none;
         }
 
@@ -55,6 +55,7 @@
             gap: 2.5rem;
             align-items: center;
             z-index: 1;
+            opacity: .85;
         }
 
         
@@ -64,12 +65,12 @@
 
         .hero-title {
             font-size: clamp(2rem, 3vw, 2.4rem);
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 0.75rem;
         }
 
         .hero-highlight {
-            background: linear-gradient(120deg, var(--accent), var(--accent-alt));
+            background: linear-gradient(120deg, var(--accent), var(--accent-soft));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -106,10 +107,10 @@
             height: 8px;
             border-radius: 50%;
             background: var(--accent);
-            box-shadow: 0 0 10px rgba(0, 245, 160, 0.6);
+            box-shadow: 0 0 10px rgb(255, 255, 255);
         }
 
-        /*right login card*/
+        /*left login card*/
         .login-card {
             background: var(--card-bg);
             border-radius: 1.4rem;
@@ -227,7 +228,7 @@
 
         .forgot-link {
             font-size: 0.8rem;
-            color: var(--accent-alt);
+            color: var(--accent-soft);
             text-decoration: none;
             opacity: 0.9;
         }
@@ -243,8 +244,8 @@
             padding: 0.75rem;
             border-radius: 0.85rem;
             border: none;
-            background: linear-gradient(120deg, var(--accent), var(--accent-alt));
-            color: #020617;
+            background: linear-gradient(120deg, var(--accent), var(--accent-soft));
+            color: #ffffff;
             font-weight: 600;
             font-size: 0.95rem;
             letter-spacing: 0.02em;
@@ -355,7 +356,7 @@
         <!-- LEFT: HERO / BRAND AREA -->
         <div class="hero-panel">
             <div class="logo">
-                <div class="logo-mark">TS</div>
+                <div class="logo-mark"></div>
                 <div class="logo-text">
                     <span>Tricking-Stat-Tracker</span>
                     <span>In a world of tricks, its hard to keep up.</span>
@@ -455,4 +456,3 @@
     </div>
 </body>
 </html>
-    </style>
