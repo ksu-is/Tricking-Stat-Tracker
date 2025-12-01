@@ -33,12 +33,12 @@
             min-height: 100vh;
             padding: 1.5rem;
             position: relative;
-            overflow: hidden;
+            opacity: 1;
         }
-        .background-grid {
+        .bg-grid {
             position: absolute;
             inset: -50%;
-            background-image:url("{{ url_for('static', filename='static/images/darkaurasnake.png') }}");
+            background-image: url("{{ url_for('static', filename='images/darkaurasnake.png') }}");
             background-size: cover;
             background-position: center;
             opacity: 0.25;
