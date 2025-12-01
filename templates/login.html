@@ -36,26 +36,13 @@
         .background-grid {
             position: absolute;
             inset: -50%;
-            background-image:url("{{ url_for('static', filename='images/darkaurasnake.png') }}");
+            background-image:url("{{ url_for('static', filename='static/images/darkaurasnake.png') }}");
             background-size: cover;
             background-position: center;
             opacity: 0.25;
             pointer-events: none;
         }
 
-        
-        .background-orb {
-            position: absolute;
-            width: 420px;
-            height: 420px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent-soft), transparent 60%);
-            filter: blur(6px);
-            top: 10%;
-            right: 5%;
-            opacity: 0.9;
-            pointer-events: none;
-        }
 
         .login-page {
             position: relative;
@@ -71,42 +58,6 @@
         
         .hero-panel {
             padding: 2rem;
-        }
-
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.75rem;
-        }
-
-        .logo-mark {
-            width: 40px;
-            height: 40px;
-            border-radius: 999px;
-            border: 2px solid var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 0 18px rgba(0, 245, 160, 0.55);
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
-
-        .logo-text span:last-child {
-            font-size: 0.95rem;
-            color: var(--accent-alt);
-            text-transform: none;
-            letter-spacing: normal;
         }
 
         .hero-title {
