@@ -1,3 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        :root {
+            --bg-color: #050816;
+            --card-bg: rgba(10, 14, 40, 0.9);
+            --accent: #4c8bf5;
+            --accent-soft: rgb(154, 235, 255);
+            --error: #ff4b4b;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --border-subtle: rgba(148, 163, 184, 0.35);
+        }
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: radial-gradient(circle at top, #1e293b 25%, #232b4e 25%, #000000 75%);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .background-grid {
+            position: absolute;
+            inset: -50%;
+            background-image:url("{{ url_for('static', filename='images/darkaurasnake.png') }}");
+            background-size: cover;
+            background-position: center;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        
+        .background-orb {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-soft), transparent 60%);
+            filter: blur(6px);
+            top: 10%;
+            right: 5%;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .login-page {
+            position: relative;
+            width: 100%;
+            max-width: 960px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+            gap: 2.5rem;
+            align-items: center;
+            z-index: 1;
+        }
+
+        
+        .hero-panel {
+            padding: 2rem;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 0 18px rgba(0, 245, 160, 0.55);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .logo-text span:last-child {
+            font-size: 0.95rem;
+            color: var(--accent-alt);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 3vw, 2.4rem);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(120deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 26rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .stat-pill {
+            padding: 0.6rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.3));
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            backdrop-filter: blur(16px);
+        }
+
+        .stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 245, 160, 0.6);
+        }
+
+        /*right login card*/
+        .login-card {
+            background: var(--card-bg);
+            border-radius: 1.4rem;
+            padding: 2rem 2.1rem;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow:
+                0 22px 60px rgba(15, 23, 42, 0.8),
+                0 0 0 1px rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(18px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(148, 163, 184, 0.25), transparent 55%);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .login-card-header {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-card-header h1 {
+            font-size: 1.45rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-card-header p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .form {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .form-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.7rem 0.85rem;
+            padding-right: 2.3rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-subtle);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, transform 0.08s ease;
+        }
+
+        .input-field::placeholder {
+            color: rgba(148, 163, 184, 0.7);
+        }
+
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent-soft), 0 0 30px rgba(0, 245, 160, 0.16);
+            background: radial-gradient(circle at top left, rgba(0, 245, 160, 0.07), rgba(15, 23, 42, 0.98));
+            transform: translateY(-1px);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 0.7rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            color: rgba(148, 163, 184, 0.85);
+            pointer-events: none;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: -0.4rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .remember-me input {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--accent);
+        }
+
+        .forgot-link {
+            font-size: 0.8rem;
+            color: var(--accent-alt);
+            text-decoration: none;
+            opacity: 0.9;
+        }
+
+        .forgot-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            margin-top: 0.6rem;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.85rem;
+            border: none;
+            background: linear-gradient(120deg, var(--accent), var(--accent-alt));
+            color: #020617;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            transform: translateY(0);
+            transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+            box-shadow: 0 13px 30px rgba(0, 245, 160, 0.3);
+        }
+
+        .submit-btn span {
+            font-size: 1.05rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 18px 38px rgba(0, 245, 160, 0.42);
+            filter: brightness(1.05);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 10px 24px rgba(0, 245, 160, 0.35);
+            filter: brightness(0.98);
+        }
+
+        .error-message {
+            margin-top: 0.4rem;
+            padding: 0.55rem 0.7rem;
+            border-radius: 0.75rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.4rem;
+            background: rgba(127, 29, 29, 0.35);
+            border: 1px solid rgba(248, 113, 113, 0.7);
+            color: #fecaca;
+        }
+
+        .error-badge {
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+
+        .login-footer {
+            margin-top: 1.15rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .login-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive layout for small screens */
+        @media (max-width: 820px) {
+            .login-page {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 1.75rem;
+            }
+
+            .hero-panel {
+                order: 2;
+                text-align: left;
+                padding: 0.5rem 0.25rem;
+            }
+
+            .hero-subtitle {
+                max-width: none;
+            }
+
+            .login-card {
+                order: 1;
+                padding: 1.7rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            .login-card {
+                padding: 1.4rem 1.2rem;
+            }
+            .hero-title {
+                font-size: 1.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-orb"></div>
+
+    <div class="login-page">
+        <!-- LEFT: HERO / BRAND AREA -->
+        <div class="hero-panel">
+            <div class="logo">
+                <div class="logo-mark">TS</div>
+                <div class="logo-text">
+                    <span>Tricking Stat Tracker</span>
+                    <span>Stand proud. Track everything.</span>
+                </div>
+            </div>
+
+            <h1 class="hero-title">
+                Log back into your <span class="hero-highlight">movement log</span>.
+            </h1>
+
+            <p class="hero-subtitle">
+                Keep every swing, hook, and dub recorded. Turn your sessions into
+                actual data — not just warm memories.
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat-pill">
+                    <div class="stat-dot"></div>
+                    <span>Track gatherings &amp; sessions</span>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-dot"></div>
+                    <span>See streaks &amp; consistency</span>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-dot"></div>
+                    <span>Set goals &amp; landlists</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: LOGIN CARD -->
+        <div class="login-card">
+            <div class="login-card-header">
+                <h1>Welcome back</h1>
+                <p>Log in to continue tracking your tricks.</p>
+            </div>
+
+            <form method="POST" class="form">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="input-field"
+                            placeholder="e.g. swinggod97"
+                            required
+                        >
+                        <span class="input-icon">@</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="input-field"
+                            placeholder="Enter your password"
+                            required
+                        >
+                        <span class="input-icon">•••</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember_me">
+                        <span>Keep me logged in</span>
+                    </label>
+                    <!-- This link can later point to a real route -->
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                {% if error %}
+                    <div class="error-message">
+                        <span class="error-badge">!</span>
+                        <span>{{ error }}</span>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="submit-btn">
+                    Log In
+                    <span>→</span>
+                </button>
+
+                <div class="login-footer">
+                    <span>New here?</span>
+                    <!-- Point this to your sign-up route later -->
+                    <span><a href="#">Create an account</a> to start tracking.</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+    </style>
 <form method="POST">
     <input type="text" name="username" placeholder="Username" required>
     <input type="password" name="password" placeholder="Password" required>
