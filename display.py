@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 import json
 import os
-import password_manager
+from password_manager import PasswordManager
 
 app = Flask(__name__)
 USERS_FILE = "users.json"
+
+password_manager = PasswordManager()
 
 def load_users():
     if not os.path.exists(USERS_FILE):
@@ -46,41 +48,26 @@ def login():
         
     return render_template("login.html")
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
+@app.route("/create_account", methods=["GET", "POST"])
+def create_account():
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
         users = load_users()
         #invalid user
         if not is_valid_username(username):
-            return render_template("register.html", error=" Username must be 3–20 characters, letters and numbers only.")
+            return render_template("create_account.html", error=" Username must be 3–20 characters, letters and numbers only.")
         #username taken
         if username in users:
-            return render_template("register.html", error="That username is already taken.")
+            return render_template("create_account.html", error="That username is already taken.")
         
         password_hash = password_manager.hash_password(password)
         users[username] = password_hash
         save_users(users)
         return redirect(url_for("login"))
 
-    return render_template("register.html")
-@app.route("/create_account", methods=["GET", "POST"])
-def create_account():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-
-        # save user to database here...
-        # hash password, insert into your users table, etc.
-
-        print("New account created for:", username)
-
-        # after creating account → send them BACK to login page
-        return redirect(url_for('login'))
-
     return render_template("create_account.html")
-app.route("/home")
+@app.route("/home")
 def home():
     return render_template('home.html')
 @app.route("/store-achievement")
