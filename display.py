@@ -65,7 +65,21 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
+@app.route("/create_account", methods=["GET", "POST"])
+def create_account():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
 
+        # save user to database here...
+        # hash password, insert into your users table, etc.
+
+        print("New account created for:", username)
+
+        # after creating account → send them BACK to login page
+        return redirect(url_for('login'))
+
+    return render_template("create_account.html")
 app.route("/home")
 def home():
     return render_template('home.html')
