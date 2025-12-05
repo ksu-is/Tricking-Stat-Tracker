@@ -53,6 +53,8 @@ def create_account():
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
+        print("RAW PASSWORD:", repr(password))
+
         users = load_users()
         #invalid user
         if not is_valid_username(username):
