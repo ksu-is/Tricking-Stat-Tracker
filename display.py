@@ -63,6 +63,8 @@ def create_account():
         if username in users:
             return render_template("create_account.html", error="That username is already taken.")
         
+        password = password[:72] # Limit password length for hashing
+        
         password_hash = password_manager.hash_password(password)
         users[username] = password_hash
         save_users(users)
