@@ -71,6 +71,7 @@ def create_account():
         return redirect(url_for("login"))
 
     return render_template("create_account.html")
+
 @app.route("/home")
 def home():
     return render_template('home.html')
